@@ -1,0 +1,87 @@
+{
+  "HomePage": {
+    "titleLine1": "Делите счет,",
+    "titleLine2": "а не друзей",
+    "subtitle": "Идеальное приложение для отслеживания общих затрат в путешествиях и на вечеринках. Без регистрации.",
+    "eventNameLabel": "Название события",
+    "eventNamePlaceholder": "Название (например: Турция 2026)",
+    "baseCurrencyLabel": "Основная валюта",
+    "currencies": {
+      "USD": "Доллар (USD)",
+      "EUR": "Евро (EUR)",
+      "RUB": "Рубль (RUB)",
+      "BYN": "Бел. рубль (BYN)",
+      "TRY": "Лира (TRY)",
+      "THB": "Бат (THB)",
+      "GEL": "Лари (GEL)"
+    },
+    "startEventButton": "Начать событие",
+    "noRegistration": "Без регистрации",
+    "offlineMode": "Офлайн режим",
+    "myEvents": "Мои события",
+    "deleteTitle": "Удалить событие?",
+    "deleteDescription": "Вы уверены, что хотите удалить это событие? Все связанные с ним траты и расчеты будут навсегда удалены.",
+    "loading": "Загрузка...",
+    "currency": "Валюта:"
+  },
+  "EventClient": {
+    "loading": "Загрузка...",
+    "notFound": "Событие не найдено",
+    "baseCurrency": "Базовая валюта",
+    "totalSpent": "Всего потрачено",
+    "tabs": {
+      "expenses": "Расходы",
+      "balances": "Баланс",
+      "participants": "Участники"
+    },
+    "expenses": {
+      "noExpenses": "Пока нет трат",
+      "noParticipantsHint": "Для начала добавьте участников во вкладке \"Участники\".",
+      "noExpensesHint": "Нажмите кнопку с плюсом, чтобы записать первую трату.",
+      "paidBy": "Оплатил(а)",
+      "unknown": "Неизвестно"
+    },
+    "balances": {
+      "title": "Итоговые расчеты",
+      "noBalancesHint": "Здесь появится список долгов после добавления трат.",
+      "allSettled": "Все расчеты завершены",
+      "nobodyOwes": "Никто никому ничего не должен!",
+      "markAsPaid": "Отметить как переведенный",
+      "closedPayments": "Закрытые переводы",
+      "paid": "Оплачено",
+      "debtReturn": "Возврат долга",
+      "unknown": "Неизвестно"
+    },
+    "participants": {
+      "noParticipants": "Нет участников",
+      "addHint": "Добавьте людей, чтобы начать делить с ними расходы.",
+      "participantName": "Имя участника",
+      "add": "Добавить"
+    },
+    "modals": {
+      "deleteExpense": {
+        "title": "Удалить трату?",
+        "description": "Эта трата будет удалена и пересчет долгов обновится. Это действие нельзя отменить."
+      },
+      "deleteParticipant": {
+        "title": "Удалить участника \"{name}\"?",
+        "description": "Траты, где он платил, будут удалены. Из других трат он будет исключен."
+      }
+    }
+  },
+  "AddExpenseClient": {
+    "loading": "Загрузка...",
+    "notFound": "Событие не найдено",
+    "noParticipants": "Сначала добавьте участников",
+    "goBack": "Вернуться назад",
+    "title": "Новая трата",
+    "descriptionLabel": "Описание",
+    "descriptionPlaceholder": "Например, Обед в ресторане",
+    "amountLabel": "Сумма",
+    "amountPlaceholder": "0.00",
+    "currencyLabel": "Валюта",
+    "payerLabel": "Кто платил?",
+    "involvedLabel": "За кого? (разделяется поровну)",
+    "saveButton": "Сохранить трату"
+  }
+}

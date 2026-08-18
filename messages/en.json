@@ -1,0 +1,87 @@
+{
+  "HomePage": {
+    "titleLine1": "Split the bill,",
+    "titleLine2": "not friendship",
+    "subtitle": "The perfect app for tracking shared expenses on trips and parties. No registration required.",
+    "eventNameLabel": "Event Name",
+    "eventNamePlaceholder": "Name (e.g. Turkey 2026)",
+    "baseCurrencyLabel": "Base Currency",
+    "currencies": {
+      "USD": "Dollar (USD)",
+      "EUR": "Euro (EUR)",
+      "RUB": "Ruble (RUB)",
+      "BYN": "Bel. Ruble (BYN)",
+      "TRY": "Lira (TRY)",
+      "THB": "Baht (THB)",
+      "GEL": "Lari (GEL)"
+    },
+    "startEventButton": "Start Event",
+    "noRegistration": "No Registration",
+    "offlineMode": "Offline Mode",
+    "myEvents": "My Events",
+    "deleteTitle": "Delete event?",
+    "deleteDescription": "Are you sure you want to delete this event? All associated expenses and calculations will be permanently deleted.",
+    "loading": "Loading...",
+    "currency": "Currency:"
+  },
+  "EventClient": {
+    "loading": "Loading...",
+    "notFound": "Event not found",
+    "baseCurrency": "Base Currency",
+    "totalSpent": "Total Spent",
+    "tabs": {
+      "expenses": "Expenses",
+      "balances": "Balances",
+      "participants": "Participants"
+    },
+    "expenses": {
+      "noExpenses": "No expenses yet",
+      "noParticipantsHint": "First, add participants in the \"Participants\" tab.",
+      "noExpensesHint": "Tap the plus button to record the first expense.",
+      "paidBy": "Paid by",
+      "unknown": "Unknown"
+    },
+    "balances": {
+      "title": "Final Calculations",
+      "noBalancesHint": "A list of debts will appear here after expenses are added.",
+      "allSettled": "All Settled",
+      "nobodyOwes": "Nobody owes anyone anything!",
+      "markAsPaid": "Mark as paid",
+      "closedPayments": "Closed Payments",
+      "paid": "Paid",
+      "debtReturn": "Debt Return",
+      "unknown": "Unknown"
+    },
+    "participants": {
+      "noParticipants": "No Participants",
+      "addHint": "Add people to start splitting expenses.",
+      "participantName": "Participant Name",
+      "add": "Add"
+    },
+    "modals": {
+      "deleteExpense": {
+        "title": "Delete Expense?",
+        "description": "This expense will be deleted and the balances will be recalculated. This action cannot be undone."
+      },
+      "deleteParticipant": {
+        "title": "Delete Participant \"{name}\"?",
+        "description": "Expenses they paid for will be deleted. They will be removed from other expenses."
+      }
+    }
+  },
+  "AddExpenseClient": {
+    "loading": "Loading...",
+    "notFound": "Event not found",
+    "noParticipants": "First, add participants",
+    "goBack": "Go Back",
+    "title": "New Expense",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "e.g. Lunch at a restaurant",
+    "amountLabel": "Amount",
+    "amountPlaceholder": "0.00",
+    "currencyLabel": "Currency",
+    "payerLabel": "Who paid?",
+    "involvedLabel": "For whom? (split equally)",
+    "saveButton": "Save Expense"
+  }
+}
