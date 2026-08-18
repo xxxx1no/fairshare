@@ -29,6 +29,7 @@
     "notFound": "Event not found",
     "baseCurrency": "Base Currency",
     "totalSpent": "Total Spent",
+    "share": "Share",
     "tabs": {
       "expenses": "Expenses",
       "balances": "Balances",

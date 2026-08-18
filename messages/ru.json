@@ -29,6 +29,7 @@
     "notFound": "Событие не найдено",
     "baseCurrency": "Базовая валюта",
     "totalSpent": "Всего потрачено",
+    "share": "Поделиться",
     "tabs": {
       "expenses": "Расходы",
       "balances": "Баланс",
