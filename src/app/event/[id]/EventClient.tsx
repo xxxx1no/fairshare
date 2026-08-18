@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { db } from '@/lib/db';
+import { supabase } from '@/lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
-import { ArrowLeft, Plus, Users, Receipt, ArrowRightLeft, Check, Trash2 } from 'lucide-react';
+import { ArrowLeft, Plus, Users, Receipt, ArrowRightLeft, Check, Trash2, Share } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { calculateSettlements } from '@/lib/settlement';
 import { useEventData } from '@/hooks/useEventData';
@@ -20,6 +20,31 @@ export default function EventClient({ eventId }: { eventId: string }) {
   const [deleteExpenseId, setDeleteExpenseId] = useState<string | null>(null);
   const [deleteParticipantData, setDeleteParticipantData] = useState<{id: string, name: string} | null>(null);
   const [activeTab, setActiveTab] = useState<'expenses' | 'balances' | 'participants'>('expenses');
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: event?.title || 'FairShare',
+          url: url
+        });
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          console.error('Error sharing:', err);
+        }
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      } catch (err) {
+        console.error('Failed to copy', err);
+      }
+    }
+  };
 
   const { event, participants, expenses } = useEventData(eventId);
 
@@ -29,30 +54,30 @@ export default function EventClient({ eventId }: { eventId: string }) {
   const confirmDeleteParticipant = async () => {
     if (!deleteParticipantData) return;
     const participantId = deleteParticipantData.id;
-    await db.transaction('rw', db.participants, db.expenses, async () => {
-      const expensesToUpdate = await db.expenses.where({ eventId }).toArray();
+    try {
+      const expensesToUpdate = expenses;
       for (const exp of expensesToUpdate) {
         if (exp.payerId === participantId) {
-          // Если он платил, удаляем всю трату
-          await db.expenses.delete(exp.id);
+          await supabase.from('expenses').delete().eq('id', exp.id);
         } else if (exp.involvedIds.includes(participantId)) {
-          // Если он был вовлечен, убираем его из списка
-          const newInvolved = exp.involvedIds.filter(id => id !== participantId);
+          const newInvolved = exp.involvedIds.filter((id: string) => id !== participantId);
           if (newInvolved.length === 0) {
-            await db.expenses.delete(exp.id);
+            await supabase.from('expenses').delete().eq('id', exp.id);
           } else {
-            await db.expenses.update(exp.id, { involvedIds: newInvolved });
+            await supabase.from('expenses').update({ involvedIds: newInvolved }).eq('id', exp.id);
           }
         }
       }
-      await db.participants.delete(participantId);
-    });
+      await supabase.from('participants').delete().eq('id', participantId);
+    } catch (e) {
+      console.error(e);
+    }
     setDeleteParticipantData(null);
   };
 
   const confirmDeleteExpense = async () => {
     if (!deleteExpenseId) return;
-    await db.expenses.delete(deleteExpenseId);
+    await supabase.from('expenses').delete().eq('id', deleteExpenseId);
     setDeleteExpenseId(null);
   };
 
@@ -64,8 +89,15 @@ export default function EventClient({ eventId }: { eventId: string }) {
           <ArrowLeft className="w-6 h-6" />
         </button>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <h1 className="text-2xl font-bold text-zinc-900 break-words">{event.title}</h1>
+            <button 
+              onClick={handleShare} 
+              className="p-1.5 rounded-full hover:bg-zinc-200 transition-colors text-zinc-600"
+              title={t('share')}
+            >
+              {isCopied ? <Check className="w-5 h-5 text-green-500" /> : <Share className="w-5 h-5" />}
+            </button>
             <LanguageSwitcher />
           </div>
           <p className="text-sm text-zinc-500 mt-1">{t('baseCurrency')}: {event.baseCurrency || 'USD'}</p>
@@ -221,7 +253,7 @@ export default function EventClient({ eventId }: { eventId: string }) {
                                   variant="primary"
                                   className="w-full"
                                   onClick={async () => {
-                                    await db.expenses.add({
+                                    await supabase.from('expenses').insert({
                                       id: crypto.randomUUID(),
                                       eventId,
                                       title: t('balances.debtReturn'),
@@ -229,7 +261,7 @@ export default function EventClient({ eventId }: { eventId: string }) {
                                       currency: s.currency,
                                       payerId: s.from,
                                       involvedIds: [s.to],
-                                      date: new Date(),
+                                      date: new Date().toISOString(),
                                       isPayment: true
                                     });
                                   }}
@@ -330,7 +362,7 @@ export default function EventClient({ eventId }: { eventId: string }) {
                     const form = e.target as HTMLFormElement;
                     const input = form.elements.namedItem('name') as HTMLInputElement;
                     if (input.value.trim()) {
-                      await db.participants.add({
+                      await supabase.from('participants').insert({
                         id: crypto.randomUUID(),
                         eventId,
                         name: input.value.trim()

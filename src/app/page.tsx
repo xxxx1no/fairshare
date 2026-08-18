@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '@/lib/db';
+import { supabase, Event } from '@/lib/supabase';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -21,8 +20,50 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const allEvents = useLiveQuery(() => db.events.toArray());
-  const sortedEvents = allEvents?.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()) || [];
+  const [sortedEvents, setSortedEvents] = useState<Event[]>([]);
+
+  // Load events from Supabase based on IDs in localStorage
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const savedIds = JSON.parse(localStorage.getItem('fairshare_events') || '[]');
+        if (savedIds.length === 0) return;
+
+        const { data } = await supabase
+          .from('events')
+          .select('*')
+          .in('id', savedIds)
+          .order('createdAt', { ascending: false });
+
+        if (data) {
+          setSortedEvents(data);
+        }
+      } catch (err) {
+        console.error('Failed to load events', err);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  const saveEventIdToLocal = (id: string) => {
+    try {
+      const savedIds = JSON.parse(localStorage.getItem('fairshare_events') || '[]');
+      if (!savedIds.includes(id)) {
+        localStorage.setItem('fairshare_events', JSON.stringify([id, ...savedIds]));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const removeEventIdFromLocal = (id: string) => {
+    try {
+      const savedIds = JSON.parse(localStorage.getItem('fairshare_events') || '[]');
+      localStorage.setItem('fairshare_events', JSON.stringify(savedIds.filter((savedId: string) => savedId !== id)));
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const handleCreateEvent = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,13 +72,14 @@ export default function Home() {
     setIsLoading(true);
     const newEventId = uuidv4();
 
-    await db.events.add({
+    await supabase.from('events').insert({
       id: newEventId,
       title,
       baseCurrency: currency,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     });
 
+    saveEventIdToLocal(newEventId);
     router.push(`/event/${newEventId}`);
   };
 
@@ -50,11 +92,12 @@ export default function Home() {
 
   const confirmDeleteEvent = async () => {
     if (!deleteEventId) return;
-    await db.transaction('rw', db.events, db.participants, db.expenses, async () => {
-      await db.events.delete(deleteEventId);
-      await db.participants.where({ eventId: deleteEventId }).delete();
-      await db.expenses.where({ eventId: deleteEventId }).delete();
-    });
+    
+    // Supabase 'on delete cascade' handles participants and expenses automatically
+    await supabase.from('events').delete().eq('id', deleteEventId);
+    
+    removeEventIdFromLocal(deleteEventId);
+    setSortedEvents(prev => prev.filter(ev => ev.id !== deleteEventId));
     setDeleteEventId(null);
   };
 
@@ -183,7 +226,7 @@ export default function Home() {
                 <div className="flex flex-col min-w-0 pr-4">
                   <h3 className="font-bold text-zinc-900 text-lg group-hover:text-black transition-colors truncate">{ev.title}</h3>
                   <p className="text-xs text-zinc-500 mt-1 truncate">
-                    {ev.createdAt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' })} • {t('currency')} {ev.baseCurrency || 'USD'}
+                    {new Date(ev.createdAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' })} • {t('currency')} {ev.baseCurrency || 'USD'}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">

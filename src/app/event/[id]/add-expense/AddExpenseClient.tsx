@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
-import { db } from '@/lib/db';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
@@ -59,7 +59,7 @@ export default function AddExpenseClient({ eventId }: { eventId: string }) {
     if (isNaN(parsedAmount) || parsedAmount <= 0) return;
 
     setIsLoading(true);
-    await db.expenses.add({
+    await supabase.from('expenses').insert({
       id: uuidv4(),
       eventId,
       title,
@@ -67,7 +67,7 @@ export default function AddExpenseClient({ eventId }: { eventId: string }) {
       currency,
       payerId,
       involvedIds,
-      date: new Date()
+      date: new Date().toISOString()
     });
 
     router.push(`/event/${eventId}`);

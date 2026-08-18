@@ -1,4 +1,4 @@
-import { Expense, Participant } from './db';
+import { Expense, Participant } from './supabase';
 
 export interface SettlementTransaction {
   from: string; // participant id
