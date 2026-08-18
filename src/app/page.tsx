@@ -72,12 +72,19 @@ export default function Home() {
     setIsLoading(true);
     const newEventId = uuidv4();
 
-    await supabase.from('events').insert({
+    const { error } = await supabase.from('events').insert({
       id: newEventId,
       title,
       baseCurrency: currency,
       createdAt: new Date().toISOString(),
     });
+
+    if (error) {
+      console.error('Error creating event:', error);
+      alert('Ошибка при создании события: ' + error.message);
+      setIsLoading(false);
+      return;
+    }
 
     saveEventIdToLocal(newEventId);
     router.push(`/event/${newEventId}`);
