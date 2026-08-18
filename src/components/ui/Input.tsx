@@ -3,6 +3,8 @@ import React from 'react';
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  'data-testid'?: string;
+  'data-test-id'?: string;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(

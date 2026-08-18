@@ -28,7 +28,7 @@ export default function AddExpenseClient({ eventId }: { eventId: string }) {
   // Default currency to event base currency
   useEffect(() => {
     if (event?.baseCurrency && currency === 'USD') {
-      const timeout = setTimeout(() => setCurrency(event.baseCurrency), 0);
+      const timeout = setTimeout(() => setCurrency(event.baseCurrency as string), 0);
       return () => clearTimeout(timeout);
     }
   }, [event, currency]);

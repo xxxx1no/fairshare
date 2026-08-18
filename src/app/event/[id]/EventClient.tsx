@@ -384,7 +384,7 @@ export default function EventClient({ eventId }: { eventId: string }) {
         isOpen={deleteParticipantData !== null}
         onClose={() => setDeleteParticipantData(null)}
         onConfirm={confirmDeleteParticipant}
-        title={t('modals.deleteParticipant.title', { name: deleteParticipantData?.name })}
+        title={t('modals.deleteParticipant.title', { name: deleteParticipantData?.name || '' })}
         description={t('modals.deleteParticipant.description')}
       />
     </div>

@@ -1,7 +1,11 @@
-import { test as base, expect } from '@playwright/test';
+import { test as base, expect, Page } from '@playwright/test';
+
+type MyFixtures = {
+  authenticatedPage: Page;
+};
 
 // Фикстура "авторизации" (приложение local-first, имитируем токен или начальное состояние)
-const test = base.extend({
+const test = base.extend<MyFixtures>({
   authenticatedPage: async ({ page }, use) => {
     // Имитация входа/авторизации
     await page.goto('/');
