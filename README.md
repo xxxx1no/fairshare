@@ -2,6 +2,8 @@
 
 FairShare is a modern, privacy-focused, local-first web application designed to help friends, roommates, and groups easily track and split shared expenses. It works completely offline and stores all your data directly on your device.
 
+🚀 **[Play with the Live Demo here!](https://fairshare-dffe.vercel.app)**
+
 ## Features
 
 - **Local-First & Offline Support**: Powered by IndexedDB (via Dexie.js), all data is stored securely on your device. No internet connection? No problem!
