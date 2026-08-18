@@ -93,35 +93,35 @@ export default function EventClient({ eventId }: { eventId: string }) {
       </header>
 
       {/* Tabs */}
-      <div className="flex gap-2 mb-6 bg-white shadow-sm p-1.5 rounded-2xl">
+      <div className="flex gap-1 sm:gap-2 mb-6 bg-white shadow-sm p-1.5 rounded-2xl overflow-x-auto no-scrollbar">
         <button
           data-testid="tab-expenses"
           onClick={() => setActiveTab('expenses')}
-          className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-medium transition-all ${activeTab === 'expenses' ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'}`}
+          className={`flex-1 py-2 sm:py-2.5 px-1 sm:px-4 rounded-xl text-[11px] sm:text-sm font-medium transition-all ${activeTab === 'expenses' ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'}`}
         >
-          <div className="flex items-center justify-center gap-2">
-            <Receipt className="w-4 h-4" />
-            {t('tabs.expenses')}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2">
+            <Receipt className="w-4 h-4 sm:w-4 sm:h-4" />
+            <span className="truncate">{t('tabs.expenses')}</span>
           </div>
         </button>
         <button
           data-testid="tab-balances"
           onClick={() => setActiveTab('balances')}
-          className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-medium transition-all ${activeTab === 'balances' ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'}`}
+          className={`flex-1 py-2 sm:py-2.5 px-1 sm:px-4 rounded-xl text-[11px] sm:text-sm font-medium transition-all ${activeTab === 'balances' ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'}`}
         >
-          <div className="flex items-center justify-center gap-2">
-            <ArrowRightLeft className="w-4 h-4" />
-            {t('tabs.balances')}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2">
+            <ArrowRightLeft className="w-4 h-4 sm:w-4 sm:h-4" />
+            <span className="truncate">{t('tabs.balances')}</span>
           </div>
         </button>
         <button
           data-testid="tab-participants"
           onClick={() => setActiveTab('participants')}
-          className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-medium transition-all ${activeTab === 'participants' ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'}`}
+          className={`flex-1 py-2 sm:py-2.5 px-1 sm:px-4 rounded-xl text-[11px] sm:text-sm font-medium transition-all ${activeTab === 'participants' ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'}`}
         >
-          <div className="flex items-center justify-center gap-2">
-            <Users className="w-4 h-4" />
-            {t('tabs.participants')}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2">
+            <Users className="w-4 h-4 sm:w-4 sm:h-4" />
+            <span className="truncate">{t('tabs.participants')}</span>
           </div>
         </button>
       </div>

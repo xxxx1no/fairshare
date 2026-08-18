@@ -52,7 +52,16 @@ body {
 /* Hide scrollbar for clean UI but keep functionality */
 ::-webkit-scrollbar {
   width: 0px;
+  height: 0px;
   background: transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .text-balance {
