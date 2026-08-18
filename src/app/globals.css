@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  
+  --font-sans: var(--font-inter);
+}
+
+:root {
+  /* Soft Light Mode */
+  --background: #f4f4f5; /* zinc-100 */
+  --foreground: #111827; /* zinc-900 */
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --border: rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  /* We force light mode for the aesthetic, or we can just keep light mode values for now */
+  :root {
+    --background: #f4f4f5;
+    --foreground: #111827;
+    --card: #ffffff;
+    --card-foreground: #111827;
+    --border: rgba(0, 0, 0, 0.05);
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utilities for Soft UI */
+.glass-panel {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+/* Base utility for soft shadows (neumorphism/soft UI) */
+.soft-shadow {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+/* Hide scrollbar for clean UI but keep functionality */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
