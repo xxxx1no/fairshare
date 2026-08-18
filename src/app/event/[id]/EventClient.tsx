@@ -24,6 +24,17 @@ export default function EventClient({ eventId }: { eventId: string }) {
 
   const handleShare = async () => {
     const url = window.location.href;
+    
+    const copyToClipboard = async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      } catch (err) {
+        console.error('Failed to copy', err);
+      }
+    };
+
     if (navigator.share) {
       try {
         await navigator.share({
@@ -33,16 +44,11 @@ export default function EventClient({ eventId }: { eventId: string }) {
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {
           console.error('Error sharing:', err);
+          await copyToClipboard();
         }
       }
     } else {
-      try {
-        await navigator.clipboard.writeText(url);
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000);
-      } catch (err) {
-        console.error('Failed to copy', err);
-      }
+      await copyToClipboard();
     }
   };
 
